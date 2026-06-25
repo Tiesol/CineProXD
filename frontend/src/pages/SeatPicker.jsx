@@ -23,7 +23,7 @@ const SeatPicker = () => {
       try {
         const [stRes, mapRes] = await Promise.all([
           getShowtime(showtimeId),
-          isLoggedIn ? getSeatMap(showtimeId) : Promise.resolve({ data: [] }),
+          getSeatMap(showtimeId),
         ]);
         setShowtime(stRes.data);
         setReserved(mapRes.data);

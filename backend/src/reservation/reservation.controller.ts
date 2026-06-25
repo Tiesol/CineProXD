@@ -14,16 +14,17 @@ import { CreateReservationDto } from './dto/create-reservation.dto';
 import { ReservationService } from './reservation.service';
 
 @Controller('reservations')
-@UseGuards(JwtAuthGuard)
 export class ReservationController {
   constructor(private readonly reservationService: ReservationService) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   create(@CurrentUser() user: JwtUser, @Body() createReservationDto: CreateReservationDto) {
     return this.reservationService.create(user.id, createReservationDto);
   }
 
   @Get('my')
+  @UseGuards(JwtAuthGuard)
   findMine(@CurrentUser() user: JwtUser) {
     return this.reservationService.findByUser(user.id);
   }

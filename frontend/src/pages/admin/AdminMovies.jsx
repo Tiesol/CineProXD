@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { getMovies, createMovie, updateMovie, uploadMovieImage, deleteMovie } from '../../services/movieService';
 import { getImageSrc } from '../../utils/imageUtils';
+import { formatDuration } from '../../utils/formatDuration';
 import Modal from '../../components/Modal';
 import Alert from '../../components/Alert';
 
 const CLASSIFICATIONS = ['Todo público', '+14', 'R'];
-const emptyForm = { title: '', durationMinutes: '', genre: '', classification: 'Todo público', synopsis: '' };
+const emptyForm = { title: '', durationHours: '', durationMins: '', genre: '', classification: 'Todo público', synopsis: '' };
 
 const AdminMovies = () => {
   const [movies, setMovies] = useState([]);
@@ -46,7 +47,8 @@ const AdminMovies = () => {
     setEditing(movie);
     setForm({
       title: movie.title,
-      durationMinutes: movie.durationMinutes,
+      durationHours: String(Math.floor(movie.durationMinutes / 60)),
+      durationMins: String(movie.durationMinutes % 60),
       genre: movie.genre,
       classification: movie.classification,
       synopsis: movie.synopsis,
@@ -71,7 +73,7 @@ const AdminMovies = () => {
     setError('');
     const payload = {
       title: form.title,
-      durationMinutes: Number(form.durationMinutes),
+      durationMinutes: Number(form.durationHours || 0) * 60 + Number(form.durationMins || 0),
       genre: form.genre,
       classification: form.classification,
       synopsis: form.synopsis,
@@ -145,7 +147,7 @@ const AdminMovies = () => {
                 </td>
                 <td className="px-4 py-3 font-medium text-gray-900">{m.title}</td>
                 <td className="px-4 py-3 text-gray-600">{m.genre}</td>
-                <td className="px-4 py-3 text-gray-600">{m.durationMinutes} min</td>
+                <td className="px-4 py-3 text-gray-600">{formatDuration(m.durationMinutes)}</td>
                 <td className="px-4 py-3 text-gray-600">{m.classification}</td>
                 <td className="px-4 py-3 text-right">
                   <button onClick={() => openEdit(m)} className="text-blue-600 hover:text-blue-800 font-medium mr-3">Editar</button>
@@ -168,8 +170,16 @@ const AdminMovies = () => {
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Duración (min)</label>
-              <input name="durationMinutes" type="number" min="1" value={form.durationMinutes} onChange={handleChange} required className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500" />
+              <label className="block text-sm font-medium text-gray-700 mb-1">Duración</label>
+              <div className="flex gap-2">
+                <div className="flex-1">
+                  <input name="durationHours" type="number" min="0" max="10" placeholder="0h" value={form.durationHours} onChange={handleChange} className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500" />
+                </div>
+                <div className="flex-1">
+                  <input name="durationMins" type="number" min="0" max="59" placeholder="0min" value={form.durationMins} onChange={handleChange} className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500" />
+                </div>
+              </div>
+              <p className="text-xs text-gray-400 mt-1">horas · minutos</p>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Género</label>

@@ -14,7 +14,7 @@ import { LocalStrategy } from './strategies/local.strategy';
     forwardRef(() => UserModule),
     PassportModule,
     JwtModule.register({
-      secret: process.env.JWT_SECRET ?? 'cinema_secret_change_in_prod',
+      secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '8h' },
     }),
   ],

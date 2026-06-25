@@ -11,4 +11,4 @@ export const getMyReservations = () =>
   axios.get(`${API}/reservations/my`, { headers: authHeaders() });
 
 export const getSeatMap = (showtimeId) =>
-  axios.get(`${API}/reservations/seat-map/${showtimeId}`, { headers: authHeaders() });
+  axios.get(`${API}/reservations/seat-map/${showtimeId}`);

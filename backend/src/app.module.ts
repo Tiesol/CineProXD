@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
+import { DatabaseModule } from './database/database.module';
 import { MovieModule } from './movie/movie.module';
 import { ReservationModule } from './reservation/reservation.module';
 import { RoomModule } from './room/room.module';
@@ -25,6 +26,7 @@ import { UserModule } from './user/user.module';
     }),
     UserModule,
     AuthModule,
+    DatabaseModule,
     MovieModule,
     RoomModule,
     ShowtimeModule,

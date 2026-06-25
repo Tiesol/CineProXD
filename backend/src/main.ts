@@ -6,8 +6,9 @@ import { join } from 'path';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const corsOrigins = (process.env.CORS_ORIGINS ?? 'http://localhost:5173').split(',');
   app.enableCors({
-    origin: ['http://localhost:5173', 'http://localhost:4173'],
+    origin: corsOrigins,
     credentials: true,
   });
   app.useStaticAssets(join(__dirname, '..', 'uploads'), { prefix: '/uploads' });

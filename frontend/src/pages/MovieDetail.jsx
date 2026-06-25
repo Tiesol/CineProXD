@@ -4,6 +4,7 @@ import { getMovie } from '../services/movieService';
 import { getShowtimesByMovie } from '../services/showtimeService';
 import { useAuth } from '../hooks/useAuth';
 import { getImageSrc } from '../utils/imageUtils';
+import { formatDuration } from '../utils/formatDuration';
 
 const classificationColors = {
   'Todo público': 'bg-green-100 text-green-800',
@@ -69,7 +70,7 @@ const MovieDetail = () => {
                 {movie.classification}
               </span>
             </div>
-            <p className="text-gray-500 text-sm">{movie.genre} · {movie.durationMinutes} min</p>
+            <p className="text-gray-500 text-sm">{movie.genre} · {formatDuration(movie.durationMinutes)}</p>
             <p className="text-gray-700 text-sm leading-relaxed">{movie.synopsis}</p>
           </div>
         </div>

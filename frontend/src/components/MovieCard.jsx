@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { getImageSrc } from '../utils/imageUtils';
+import { formatDuration } from '../utils/formatDuration';
 
 const classificationColors = {
   'Todo público': 'bg-green-100 text-green-800',
@@ -23,7 +24,7 @@ const MovieCard = ({ movie }) => (
           {movie.classification}
         </span>
       </div>
-      <p className="text-sm text-gray-500 mb-1">{movie.genre} · {movie.durationMinutes} min</p>
+      <p className="text-sm text-gray-500 mb-1">{movie.genre} · {formatDuration(movie.durationMinutes)}</p>
       <p className="text-sm text-gray-600 line-clamp-3 flex-1 mb-4">{movie.synopsis}</p>
       <Link
         to={`/peliculas/${movie.id}`}
